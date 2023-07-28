@@ -36,10 +36,28 @@ const dummy_details=[{
     address:"Raigad",
     descriptions:"Pune Maharashtra"
 }]
-function Home() {
+function Home(props) {
   return (
-    <MeetupList meetups={dummy_details}/>
+    <MeetupList meetups={props.meetups}/>
   )
 }
 
+// export async function getServerSideProps(context){
+//     const req=context.req;
+//     const res=context.res;
+       
+//     return{
+//         props:{
+//             meetups : dummy_details
+//         }
+//     }
+// }
+export async function getStaticProps(){
+       
+    return{
+        props:{
+            meetups : dummy_details},
+            revalidate:1
+    }
+}
 export default Home
