@@ -1,14 +1,8 @@
 import React from 'react'
 import MeetupList from '@/components/meetups/MeetupList'
+import { MongoClient } from 'mongodb'
 
 const dummy_details=[{
-    id:"m1",
-    title:"First MeetUp",
-    image:"https://content.skyscnr.com/m/19c1f54952cdf28a/original/GettyImages-532519763.jpg?resize=800px:600px&quality=100",
-    address:"Agra",
-    descriptions:"Taj Mahal"
-},
-{
     id:"m2",
     title:"Second MeetUp",
     image:"https://c.myholidays.com/blog/blog/content/images/2020/11/Places-To-Visit-In-India.jpg",
@@ -19,7 +13,7 @@ const dummy_details=[{
     id:"m3",
     title:"Third MeetUp",
     image:"https://ihplb.b-cdn.net/wp-content/uploads/2017/07/Pratapgarh-Fort-Near-Mahabaleshwar.jpg",
-    address:"Prtapgadh",
+    address:"Pratapgadh",
     descriptions:"Pune Maharashtra"
 },
 {
@@ -53,10 +47,25 @@ function Home(props) {
 //     }
 // }
 export async function getStaticProps(){
-       
+        //fetching data
+        const client= await MongoClient.connect('mongodb+srv://tejassadade645:tejas2001@cluster0.5ypnjt7.mongodb.net/meetups?retryWrites=true&w=majority')
+        const db=client.db()
+    
+         const meetupsCollection=db.collection('meetups')
+    
+         const meetups=await meetupsCollection.find().toArray()
+    
+         client.close()
     return{
         props:{
-            meetups : dummy_details},
+            meetups: meetups.map(meetup=>({
+                image:meetup.image,
+                title:meetup.title,
+                address:meetup.address,
+                description:meetup.description,
+                id:meetup._id.toString()
+              }))
+            },
             revalidate:1
     }
 }
