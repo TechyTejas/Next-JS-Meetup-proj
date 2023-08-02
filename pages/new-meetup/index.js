@@ -1,5 +1,6 @@
 import NewMeetupForm from '@/components/meetups/NewMeetupForm'
 import React from 'react'
+import Head from 'next/head'
 
 function NewMeetUpPage() {
   // async  function addMeetupHander (enteredMeetupData) {
@@ -31,7 +32,15 @@ function NewMeetUpPage() {
      
   }
   return (
-    <NewMeetupForm onAddMeetup={addMeetupHander}/>    
+    <React.Fragment>
+    <Head>
+        <title>Add a new meetup</title>
+        <meta
+        name = "description"
+        content = "Add your own meetups and create amazing network oppertunities"/>
+    </Head>
+    <NewMeetupForm onAddMeetup={addMeetupHander}/>   
+    </React.Fragment> 
   )
 }
 

@@ -1,6 +1,7 @@
 import React from 'react'
 import MeetupList from '@/components/meetups/MeetupList'
 import { MongoClient } from 'mongodb'
+import Head from 'next/head'
 
 const dummy_details=[{
     id:"m2",
@@ -32,20 +33,18 @@ const dummy_details=[{
 }]
 function Home(props) {
   return (
+    <React.Fragment>
+    <Head>
+        <title>React Meetups</title>
+        <meta
+        name = "description"
+        content = "Browse a huge list of highly active React meetups"/>
+    </Head>
     <MeetupList meetups={props.meetups}/>
+    </React.Fragment>
   )
 }
 
-// export async function getServerSideProps(context){
-//     const req=context.req;
-//     const res=context.res;
-       
-//     return{
-//         props:{
-//             meetups : dummy_details
-//         }
-//     }
-// }
 export async function getStaticProps(){
         //fetching data
         const client= await MongoClient.connect('mongodb+srv://tejassadade645:tejas2001@cluster0.5ypnjt7.mongodb.net/meetups?retryWrites=true&w=majority')
